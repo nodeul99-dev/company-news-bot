@@ -2,8 +2,9 @@ name: Company News Monitor
 
 on:
   schedule:
-    - cron: '0 8,11,15,18 * * 1-5'  
-    # 평일 10시, 11시, 3시, 6시
+  - cron: '0 23 * * 0-4'
+  - cron: '0 2,6,8 * * 1-5'
+# 평일 오전 8시, 11시, 오후 3시, 5시 (한국시간)
   workflow_dispatch:
 
 jobs:
