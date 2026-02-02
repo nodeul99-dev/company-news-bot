@@ -9,7 +9,7 @@ TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 # 회사 정보 (여기를 수정하세요!)
-COMPANY_NAME = "미래에셋증권"  # 예시 - 실제 회사명으로 변경하세요
+COMPANY_NAME = "이재명"  # 예시 - 실제 회사명으로 변경하세요
 
 # 검색 키워드
 SEARCH_KEYWORDS = [COMPANY_NAME]
