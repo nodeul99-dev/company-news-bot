@@ -114,11 +114,10 @@ class NewsCrawler:
             print(f"❌ 웹 크롤링 실패: {e}")
             return []
     
-def filter_recent(self, articles, hours=1):
-    """최근 N시간 내 기사만 필터링"""
-    # 모든 기사를 포함 (시간 필터링 비활성화)
-    print(f"⏰ 시간 필터링 없이 모든 기사 포함: {len(articles)}개")
-    return articles
+    def filter_recent(self, articles, hours=1):
+        """최근 N시간 내 기사만 필터링 - 간단하게 모든 기사 포함"""
+        print(f"⏰ 검색된 모든 기사 포함: {len(articles)}개")
+        return articles
     
     def _clean_html(self, text):
         """HTML 태그 제거"""
