@@ -31,33 +31,29 @@ class TelegramNotifier:
             print(f"❌ 전송 실패: {e}")
             return False
     
-    def _format_message(self, article):
-        """메시지 포맷팅"""
-        title = article.get('title', '제목 없음')
-        description = article.get('description', '')
-        link = article.get('link', '')
-        source = article.get('source', '출처 미상')
-        pub_date = article.get('pubDate', '')
-        
-        # 날짜 포맷팅
-        if hasattr(pub_date, 'strftime'):
-            date_str = pub_date.strftime('%Y-%m-%d %H:%M')
-        else:
-            date_str = str(pub_date)
-        
-        # 메시지 구성
-        message = f"""🔔 *새 뉴스 발견*
+def _format_message(self, article):
+    """메시지 포맷팅 - 간결형"""
+    title = article.get('title', '제목 없음')
+    description = article.get('description', '')
+    link = article.get('link', '')
+    source = article.get('source', '출처 미상')
+    pub_date = article.get('pubDate', '')
+    
+    # 날짜 포맷팅
+    if hasattr(pub_date, 'strftime'):
+        date_str = pub_date.strftime('%m/%d %H:%M')
+    else:
+        date_str = str(pub_date)
+    
+    # 간결한 메시지
+    message = f"""📰 *{self._escape_markdown(title)}*
 
-*{self._escape_markdown(title)}*
+{self._escape_markdown(description[:150])}{'...' if len(description) > 150 else ''}
 
-{self._escape_markdown(description[:200])}{'...' if len(description) > 200 else ''}
-
-📰 출처: {self._escape_markdown(source)}
-⏰ {date_str}
-
+{self._escape_markdown(source)} | {date_str}
 🔗 [기사 보기]({link})
 """
-        return message
+    return message
     
     def _escape_markdown(self, text):
         """Markdown 특수문자 이스케이프"""
