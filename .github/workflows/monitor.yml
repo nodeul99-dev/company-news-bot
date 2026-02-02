@@ -2,7 +2,7 @@ name: Company News Monitor
 
 on:
   schedule:
-    - cron: '0 10,11,15,18 * * 1-5'  
+    - cron: '0 8,11,15,18 * * 1-5'  
     # 평일 10시, 11시, 3시, 6시
   workflow_dispatch:
 
