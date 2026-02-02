@@ -31,29 +31,29 @@ class TelegramNotifier:
             print(f"❌ 전송 실패: {e}")
             return False
     
-def _format_message(self, article):
-    """메시지 포맷팅 - 간결형"""
-    title = article.get('title', '제목 없음')
-    description = article.get('description', '')
-    link = article.get('link', '')
-    source = article.get('source', '출처 미상')
-    pub_date = article.get('pubDate', '')
-    
-    # 날짜 포맷팅
-    if hasattr(pub_date, 'strftime'):
-        date_str = pub_date.strftime('%m/%d %H:%M')
-    else:
-        date_str = str(pub_date)
-    
-    # 간결한 메시지
-    message = f"""📰 *{self._escape_markdown(title)}*
+    def _format_message(self, article):
+        """메시지 포맷팅 - 간결형"""
+        title = article.get('title', '제목 없음')
+        description = article.get('description', '')
+        link = article.get('link', '')
+        source = article.get('source', '출처 미상')
+        pub_date = article.get('pubDate', '')
+        
+        # 날짜 포맷팅
+        if hasattr(pub_date, 'strftime'):
+            date_str = pub_date.strftime('%m/%d %H:%M')
+        else:
+            date_str = str(pub_date)
+        
+        # 간결한 메시지
+        message = f"""📰 *{self._escape_markdown(title)}*
 
 {self._escape_markdown(description[:150])}{'...' if len(description) > 150 else ''}
 
 {self._escape_markdown(source)} | {date_str}
 🔗 [기사 보기]({link})
 """
-    return message
+        return message
     
     def _escape_markdown(self, text):
         """Markdown 특수문자 이스케이프"""
@@ -67,9 +67,9 @@ def _format_message(self, article):
         try:
             message = f"""📊 *뉴스봇 실행 완료*
 
-• 발견: {total}개
-• 전송: {sent}개
-• 건너뜀: {skipped}개 (중복)
+- 발견: {total}개
+- 전송: {sent}개
+- 건너뜀: {skipped}개 (중복)
 """
             
             url = f"{self.base_url}/sendMessage"
