@@ -1,0 +1,45 @@
+name: Company News Monitor
+
+on:
+  # 매시간 실행
+  schedule:
+    - cron: '0 * * * *'
+  
+  # 수동 실행
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Python 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 의존성 설치
+        run: |
+          pip install -r requirements.txt
+      
+      - name: 🤖 뉴스봇 실행
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: |
+          python src/main.py
+      
+      - name: 💾 발송 이력 저장
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add data/sent_articles.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update sent articles [skip ci]" && git push)
