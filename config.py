@@ -8,11 +8,16 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-# 회사 정보 (여기를 수정하세요!)
-COMPANY_NAME = "이재명"  # 예시 - 실제 회사명으로 변경하세요
+COMPANY_NAME = "DS투자증권"
 
-# 검색 키워드
-SEARCH_KEYWORDS = [COMPANY_NAME]
+SEARCH_KEYWORDS = [
+    "DS투자증권",
+    "디에스투자증권",
+    "DS증권",
+    "디에스증권",
+    "장덕수 DS투자증권",
+    "장덕수 디에스투자증권"
+]
 
 # 네이버 검색 API (선택사항 - 없으면 웹 크롤링 사용)
 NAVER_CLIENT_ID = os.getenv('NAVER_CLIENT_ID', '')
