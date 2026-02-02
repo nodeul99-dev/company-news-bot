@@ -114,18 +114,11 @@ class NewsCrawler:
             print(f"❌ 웹 크롤링 실패: {e}")
             return []
     
-    def filter_recent(self, articles, hours=1):
-        """최근 N시간 내 기사만 필터링"""
-        cutoff = datetime.now() - timedelta(hours=hours)
-        recent = []
-        
-        for article in articles:
-            pub_date = article.get('pubDate')
-            if isinstance(pub_date, datetime) and pub_date > cutoff:
-                recent.append(article)
-        
-        print(f"⏰ 최근 {hours}시간 내: {len(recent)}개")
-        return recent
+def filter_recent(self, articles, hours=1):
+    """최근 N시간 내 기사만 필터링"""
+    # 모든 기사를 포함 (시간 필터링 비활성화)
+    print(f"⏰ 시간 필터링 없이 모든 기사 포함: {len(articles)}개")
+    return articles
     
     def _clean_html(self, text):
         """HTML 태그 제거"""
