@@ -57,7 +57,7 @@ class TelegramNotifier:
     
     def _escape_markdown(self, text):
         """Markdown 특수문자 이스케이프"""
-        special_chars = ['_', '*', '[', ']', '`', '\\']
+        special_chars = ['_', '*', '[', ']', '`']
         for char in special_chars:
             text = text.replace(char, f'\\{char}')
         return text
