@@ -55,9 +55,10 @@ class TelegramNotifier:
 """
         return message
     
-def _escape_markdown(self, text):
-    """Markdown 특수문자 이스케이프 - 최소화"""
-    return text
+    def _escape_markdown(self, text):
+        """Markdown 특수문자 이스케이프 - 슬래시 제거 버전"""
+        # 언더스코어만 이스케이프 ([], 등은 그대로)
+        return text.replace('_', '\\_')
     
     def send_summary(self, total, sent, skipped):
         """실행 요약 전송"""
