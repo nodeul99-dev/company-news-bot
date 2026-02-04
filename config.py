@@ -23,6 +23,6 @@ NAVER_CLIENT_ID = os.getenv('NAVER_CLIENT_ID', '')
 NAVER_CLIENT_SECRET = os.getenv('NAVER_CLIENT_SECRET', '')
 
 # 크롤링 설정
-CHECK_INTERVAL_HOURS = 1  # 최근 N시간 내 뉴스만 확인
+CHECK_INTERVAL_HOURS = 6  # 최근 N시간 내 뉴스만 확인
 MAX_ARTICLES_PER_RUN = 5  # 한 번에 최대 검색 개수
 STORAGE_FILE = 'data/sent_articles.json'
