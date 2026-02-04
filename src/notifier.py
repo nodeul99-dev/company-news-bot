@@ -55,12 +55,9 @@ class TelegramNotifier:
 """
         return message
     
-    def _escape_markdown(self, text):
-        """Markdown 특수문자 이스케이프"""
-        special_chars = ['_', '*', '[', ']', '`']
-        for char in special_chars:
-            text = text.replace(char, f'\\{char}')
-        return text
+def _escape_markdown(self, text):
+    """Markdown 특수문자 이스케이프 - 최소화"""
+    return text
     
     def send_summary(self, total, sent, skipped):
         """실행 요약 전송"""
