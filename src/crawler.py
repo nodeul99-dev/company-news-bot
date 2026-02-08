@@ -12,11 +12,34 @@ class NewsCrawler:
         self.base_url = "https://openapi.naver.com/v1/search/news.json"
     
     def search_news(self, keyword, display=20):
-        """네이버 뉴스 검색"""
-        if self.client_id and self.client_secret:
-            return self._search_with_api(keyword, display)
+        """네이버 뉴스 검색. keyword가 리스트이면 AND 조건으로 필터링."""
+        if isinstance(keyword, list):
+            # AND 키워드: 첫 번째 키워드로 검색 후, 모든 키워드가 포함된 기사만 반환
+            search_term = keyword[0]
+            required_terms = keyword
         else:
-            return self._search_with_crawl(keyword, display)
+            search_term = keyword
+            required_terms = None
+
+        if self.client_id and self.client_secret:
+            articles = self._search_with_api(search_term, display)
+        else:
+            articles = self._search_with_crawl(search_term, display)
+
+        if required_terms:
+            articles = self._filter_by_all_terms(articles, required_terms)
+
+        return articles
+
+    def _filter_by_all_terms(self, articles, terms):
+        """기사 제목+본문에 모든 키워드가 포함된 것만 반환"""
+        filtered = []
+        for article in articles:
+            text = (article.get('title', '') + ' ' + article.get('description', '')).lower()
+            if all(term.lower() in text for term in terms):
+                filtered.append(article)
+        print(f"🔍 AND 필터 ({' + '.join(terms)}): {len(articles)}개 → {len(filtered)}개")
+        return filtered
     
     def _search_with_api(self, keyword, display):
         """네이버 API로 검색"""
@@ -115,9 +138,15 @@ class NewsCrawler:
             return []
     
     def filter_recent(self, articles, hours=1):
-        """최근 N시간 내 기사만 필터링 - 간단하게 모든 기사 포함"""
-        print(f"⏰ 검색된 모든 기사 포함: {len(articles)}개")
-        return articles
+        """최근 N시간 내 기사만 필터링"""
+        cutoff = datetime.now() - timedelta(hours=hours)
+        recent = []
+        for article in articles:
+            pub_date = article.get('pubDate')
+            if pub_date and pub_date.replace(tzinfo=None) >= cutoff:
+                recent.append(article)
+        print(f"⏰ 최근 {hours}시간 필터: {len(articles)}개 → {len(recent)}개")
+        return recent
     
     def _clean_html(self, text):
         """HTML 태그 제거"""

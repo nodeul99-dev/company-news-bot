@@ -1,10 +1,13 @@
 name: Company News Monitor
 
 on:
+  # 주 트리거: cron-job.org에서 workflow_dispatch로 정시 호출
+  # 보조 트리거: GitHub Actions cron (cron-job.org 실패 시 백업)
   schedule:
-    - cron: '0 23 * * 0-4'
-    - cron: '0 4,9 * * 1-5'
-    # 평일 오전 8시, 11시, 오후 3시, 5시 (한국시간)
+    - cron: '0 23 * * 0-4'    # KST 08:00 (월~금)
+    - cron: '0 2 * * 1-5'     # KST 11:00
+    - cron: '0 6 * * 1-5'     # KST 15:00
+    - cron: '0 8 * * 1-5'     # KST 17:00
   workflow_dispatch:
 
 jobs:

@@ -47,11 +47,13 @@ def main():
         print("❌ 텔레그램 봇 연결 실패!")
         return 1
     
-    print(f"✅ 검색 키워드: {config.COMPANY_NAME}")
-    
+    for kw in config.SEARCH_KEYWORDS:
+        label = ' + '.join(kw) if isinstance(kw, list) else kw
+        print(f"  🔑 {label}")
+
     # 2. 뉴스 크롤링
     print(f"\n[2/5] '{config.COMPANY_NAME}' 뉴스 검색 중...")
-    
+
     all_articles = []
     for keyword in config.SEARCH_KEYWORDS:
         articles = crawler.search_news(
