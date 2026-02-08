@@ -15,19 +15,19 @@ class NewsCrawler:
         """네이버 뉴스 검색. keyword가 리스트이면 AND 조건으로 필터링."""
         if isinstance(keyword, list):
             # AND 키워드: 첫 번째 키워드로 검색 후, 모든 키워드가 포함된 기사만 반환
-            search_term = keyword[0]
+            search_term = f'"{keyword[0]}"'
             required_terms = keyword
         else:
-            search_term = keyword
-            required_terms = None
+            search_term = f'"{keyword}"'
+            required_terms = [keyword]
 
         if self.client_id and self.client_secret:
             articles = self._search_with_api(search_term, display)
         else:
             articles = self._search_with_crawl(search_term, display)
 
-        if required_terms:
-            articles = self._filter_by_all_terms(articles, required_terms)
+        # 검색 결과에서 키워드가 실제로 포함된 기사만 반환
+        articles = self._filter_by_all_terms(articles, required_terms)
 
         return articles
 
